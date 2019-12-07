@@ -216,4 +216,13 @@ class CornerBouncyBallView(ctx : Context) : View(ctx) {
             }
         }
     }
+
+    companion object {
+
+        fun create(activity : Activity) : CornerBouncyBallView {
+            val view : CornerBouncyBallView = CornerBouncyBallView(activity)
+            activity.setContentView(view)
+            return view
+        }
+    }
 }
