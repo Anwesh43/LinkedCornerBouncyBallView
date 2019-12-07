@@ -134,7 +134,7 @@ class CornerBouncyBallView(ctx : Context) : View(ctx) {
         private var next : CBBNode? = null
 
         init {
-
+            addNeighbor()
         }
 
         fun addNeighbor() {
