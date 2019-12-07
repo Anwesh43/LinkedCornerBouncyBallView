@@ -193,4 +193,26 @@ class CornerBouncyBallView(ctx : Context) : View(ctx) {
             curr.startUpdating(cb)
         }
     }
+
+    data class Renderer(var view : CornerBouncyBallView) {
+
+        private val animator : Animator = Animator(view)
+        private val cbb : CornerBouncyBall = CornerBouncyBall(0)
+
+        fun render(canvas : Canvas, paint : Paint) {
+            canvas.drawColor(backColor)
+            cbb.draw(canvas, paint)
+            animator.animate {
+                cbb.update {
+                    animator.stop()
+                }
+            }
+        }
+
+        fun handleTap() {
+            cbb.startUpdating {
+                animator.start()
+            }
+        }
+    }
 }
