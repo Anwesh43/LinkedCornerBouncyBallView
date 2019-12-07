@@ -26,3 +26,37 @@ fun Float.maxScale(i : Int, n : Int) : Float = Math.max(0f, this - i * n.inverse
 fun Float.divideScale(i : Int, n : Int) : Float = Math.min(n.inverse(), maxScale(i, n)) * n
 fun Float.sinify() : Float = Math.sin(this * Math.PI).toFloat()
 fun Float.cosify() : Float = 1f - Math.sin(Math.PI / 2 + (this) * Math.PI / 2).toFloat()
+
+fun Canvas.drawCornerBouncyBall(i : Int, scale : Float, size : Float, paint : Paint) {
+    val r : Float = size / rFactor
+    val sf : Float = scale.sinify()
+    val sc : Float = scale.divideScale(1, 2).cosify()
+    save()
+    rotate(90f * i)
+    drawLine(0f, 0f, size * sf, size * sf, paint)
+    drawCircle(size * sc, size * sc, r, paint)
+    restore()
+}
+
+fun Canvas.drawCornerBouncyBalls(scale : Float, size : Float, paint : Paint) {
+    for (j in 0..(balls - 1)) {
+        save()
+        rotate(90f * j)
+        drawCornerBouncyBall(j, scale, size, paint)
+        restore()
+    }
+}
+
+fun Canvas.drawCBBNode(i : Int, scale : Float, paint : Paint) {
+    val w : Float = width.toFloat()
+    val h : Float = height.toFloat()
+    val gap : Float = h / (nodes + 1)
+    val size : Float = gap / sizeFactor
+    paint.color = foreColor
+    paint.strokeWidth = Math.min(w, h) / strokeFactor
+    paint.strokeCap = Paint.Cap.ROUND
+    save()
+    translate(w / 2, gap * (i + 1))
+    drawCornerBouncyBalls(scale, size, paint)
+    restore()
+}
